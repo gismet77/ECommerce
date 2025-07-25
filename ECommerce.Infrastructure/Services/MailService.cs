@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ECommerce.Infrastructure.Services
 {   
+    // Mail servisi ile bagli isler 
     public class MailService : IMailService
     {
         readonly IConfiguration _configuration;
