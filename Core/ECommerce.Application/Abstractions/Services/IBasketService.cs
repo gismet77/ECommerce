@@ -14,6 +14,6 @@ namespace ECommerce.Application.Abstractions.Services
         public Task AddItemToBasketAsync(VM_Create_BasketItem basketItem);
         public Task UpdateQuantityAsync(Vm_Update_BasketItem basketItem);
         public Task RemoveBasketItemAsync(string basketItemId);
-        public Task Basket
+        public Basket? GetUserActiveBasket { get; }
     }
 }

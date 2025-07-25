@@ -23,7 +23,7 @@ namespace ECommerce.Persistence.Services
             await _orderWriteRepository.AddAsync(new()
             {
                 Address = createOrder.Address,
-                BasketId = Guid.Parse(createOrder.BasketId),
+                Id = Guid.Parse(createOrder.BasketId),
                 Description = createOrder.Description
             });
             await _orderWriteRepository.SaveAsync();
