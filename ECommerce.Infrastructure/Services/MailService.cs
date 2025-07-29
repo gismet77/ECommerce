@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ECommerce.Infrastructure.Services
 {   
-    // Mail servisi ile bagli isler 
+
     public class MailService : IMailService
     {
         readonly IConfiguration _configuration;
@@ -41,17 +41,28 @@ namespace ECommerce.Infrastructure.Services
             await smtp.SendMailAsync(mail);
         }
 
-        public Task SendPasswordResetEmailAsync(string to, string userId, string resetToken)
+        public async Task SendPasswordResetEmailAsync(string to, string userId, string resetToken)
         {
             StringBuilder mail = new();
-            mail.AppendLine("Salam <br> Yeni sifre teleb edirsinizse asagidaki linkden sifrenizi yenileyin...<br> <strong> <a target =\"_blank\" href=\"............/");
+            mail.AppendLine("Salam <br> Yeni sifre teleb edirsinizse asagidaki linkden sifrenizi yenileyin...<br> <strong> <a target =\"_blank\" href=\"");
+            mail.AppendLine(_configuration["AngularClientUrl"]);
+            mail.AppendLine("/update-password/");
             mail.AppendLine(userId);
             mail.AppendLine("/");
             mail.AppendLine(resetToken);
             mail.AppendLine("\">Yeni sifre ucun daxil olun...</a></strong><br><br><br><span style =\"font-size:12px; \"> ");
 
-            SendEmailAsync(to, "Sifrenizi yenileyin", mail.ToString() );
-            return null;
+            await SendEmailAsync(to, "Sifrenizi yenileyin", mail.ToString());            
         }
+
+         
+        public async Task SendCompletedOrderEMailAsync(string to, string orderCode, DateTime orderDate, string userName ) 
+        {
+            string mailBody = $"Salam {userName} ,<br><br>" +
+               $"{orderDate} tarixinde verdiyiniz {orderCode} kodlu sifarisiniz tamamlanmisdir.<br><br>";
+
+            await SendEmailAsync(to, "Sifarisiniz tamamlandi", mailBody);
+        }
+
     }
 }

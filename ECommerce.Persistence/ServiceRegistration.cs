@@ -8,6 +8,7 @@ using ECommerce.Persistence.Contexts;
 using ECommerce.Persistence.Repositories;
 using ECommerce.Persistence.Repositories.File;
 using ECommerce.Persistence.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -32,7 +33,8 @@ namespace ECommerce.Persistence
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<ECommerceDbContext>();
+            }).AddEntityFrameworkStores<ECommerceDbContext>()
+            .AddDefaultTokenProviders();
 
 
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
@@ -51,6 +53,8 @@ namespace ECommerce.Persistence
             services.AddScoped<IBasketWriteRepository, BasketWriteRepository>();
             services.AddScoped<IBasketItemReadRepository, BasketItemReadRepository>();
             services.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
+            services.AddScoped<ICompletedOrderReadRepository, CompletedOrderReadRepository>();
+            services.AddScoped<ICompletedOrderWriteRepository, CompletedOrderWriteRepository>();
 
 
             services.AddScoped<IUserService, UserService>();
