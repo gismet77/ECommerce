@@ -1,4 +1,7 @@
-﻿using ECommerce.Application.Features.Commands.Basket.AddItemToBasket;
+﻿using ECommerce.Application.Consts;
+using ECommerce.Application.CustomAttributes;
+using ECommerce.Application.Enums;
+using ECommerce.Application.Features.Commands.Basket.AddItemToBasket;
 using ECommerce.Application.Features.Commands.Basket.RemoveBasketItem;
 using ECommerce.Application.Features.Commands.Basket.UpdateQuantity;
 using ECommerce.Application.Features.Queries.Basket.GetBasketItems;
@@ -24,6 +27,7 @@ namespace ECommerse.API.Controllers
 
 
         [HttpGet]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Baskets, ActionType = ActionType.Reading, Definition = "Get Basket Items")]
         public async Task<IActionResult> GetBasketItems([FromQuery]GetBasketItemsQueryRequest getBasketItemsQueryRequest)
         {
             List<GetBasketItemsQueryResponse> response = await _mediator.Send(getBasketItemsQueryRequest);
@@ -31,6 +35,7 @@ namespace ECommerse.API.Controllers
         }
 
         [HttpPost]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Baskets, ActionType = ActionType.Writing, Definition = "Add Item To Basket")]
         public async Task<IActionResult> AddItemToBasket(AddItemToBasketCommandRequest addItemToBasketCommandRequest)
         {
             AddItemToBasketCommandResponse response = await _mediator.Send(addItemToBasketCommandRequest);
@@ -38,6 +43,7 @@ namespace ECommerse.API.Controllers
         }
 
         [HttpPut]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Baskets, ActionType = ActionType.Updating, Definition = "Update Quantity")]
         public async Task<IActionResult> UpdateQuantity(UpdateQuantityCommandRequest updateQuantityCommandRequest)
         {
             UpdateQuantityCommandResponse response = await _mediator.Send(updateQuantityCommandRequest);
@@ -45,6 +51,7 @@ namespace ECommerse.API.Controllers
         }
 
         [HttpDelete("{BasketItemId}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Baskets, ActionType = ActionType.Deleting, Definition = "Remove Basket Item")]
         public async Task<IActionResult> RemoveBasketItem([FromRoute] RemoveBasketItemCommandRequest removeBasketItemCommandRequest) 
         {
             RemoveBasketItemCommanResponse response = await _mediator.Send(removeBasketItemCommandRequest);

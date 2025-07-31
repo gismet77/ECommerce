@@ -1,4 +1,7 @@
 ﻿using ECommerce.Application.Abstractions.Storage;
+using ECommerce.Application.Consts;
+using ECommerce.Application.CustomAttributes;
+using ECommerce.Application.Enums;
 using ECommerce.Application.Features.Commands.Product.CreateProduct;
 using ECommerce.Application.Features.Commands.Product.RemoveProduct;
 using ECommerce.Application.Features.Commands.Product.UpdateProduct;
@@ -45,6 +48,7 @@ namespace ECommerse.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")] // gelen isteklere icazesi olan sexsdirse icaze verir
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Writing, Definition = "Create Product")]
         public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
             CreateProductCommandResponse response = await _mediator.Send(createProductCommandRequest);
@@ -54,6 +58,7 @@ namespace ECommerse.API.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")] // gelen isteklere icazesi olan sexsdirse icaze verir
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Updating, Definition = "Update Product")]
         public async Task<IActionResult> Put([FromBody] UpdateProductCommandRequest updateProductCommandRequest)
         {
             UpdateProductCommandResponse response = await _mediator.Send(updateProductCommandRequest);
@@ -61,6 +66,7 @@ namespace ECommerse.API.Controllers
         }
         [HttpDelete("{Id}")]
         [Authorize(AuthenticationSchemes = "Admin")] // gelen isteklere icazesi olan sexsdirse icaze verir
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Deleting, Definition = "Delete Product")]
         public async Task<IActionResult> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
         {
             RemoveProductCommandResponse response = await _mediator.Send(removeProductCommandRequest);
@@ -70,6 +76,7 @@ namespace ECommerse.API.Controllers
         // saytda her hansi bir fayl yuklemek ucun istifade edilir.
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")] // gelen isteklere icazesi olan sexsdirse icaze verir
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Writing, Definition = "Upload Product File")]
         public async Task<IActionResult> Upload([FromQuery] UploadProductImageCommandRequest uploadProductImageCommandRequest)
         {
             uploadProductImageCommandRequest.Files = Request.Form.Files;
@@ -79,6 +86,7 @@ namespace ECommerse.API.Controllers
 
         [HttpGet("[action]/{id}")]
         [Authorize(AuthenticationSchemes = "Admin")] // gelen isteklere icazesi olan sexsdirse icaze verir
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Get Products images")]
         public async Task<IActionResult> GetProductImages([FromRoute] GetProductImagesQueryRequest getProductImagesQueryRequest)
         {
             List<GetProductImagesQueryResponse> response = await _mediator.Send(getProductImagesQueryRequest);
@@ -87,6 +95,7 @@ namespace ECommerse.API.Controllers
 
         [HttpDelete("[action]/{Id}")]
         [Authorize(AuthenticationSchemes = "Admin")] // gelen isteklere icazesi olan sexsdirse icaze verir
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Deleting, Definition = "Delete Product Image")]
         public async Task<IActionResult> DeleteProductImage([FromRoute] RemoveProductImageCommandRequest removeProductImageCommandRequest, [FromQuery] string imageId)
         {
             removeProductImageCommandRequest.ImageId = imageId;
@@ -96,6 +105,7 @@ namespace ECommerse.API.Controllers
 
         [HttpGet("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")] // gelen isteklere icazesi olan sexsdirse icaze verir
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Updating, Definition = "Change Showcase Image")]
         public async Task<IActionResult> ChangeShowcaseImage([FromQuery] ChangeShowcaseImageCommandRequest changeShowcaseImageCommandRequest)
         {
             ChangeShowcaseImageCommandResponse response = await _mediator.Send(changeShowcaseImageCommandRequest);

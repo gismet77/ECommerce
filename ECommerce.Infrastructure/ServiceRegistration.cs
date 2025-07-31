@@ -1,8 +1,10 @@
 ﻿using ECommerce.Application.Abstractions.Services;
+using ECommerce.Application.Abstractions.Services.Configurations;
 using ECommerce.Application.Abstractions.Storage;
 using ECommerce.Application.Abstractions.Token;
 using ECommerce.Infrastructure.Enums;
 using ECommerce.Infrastructure.Services;
+using ECommerce.Infrastructure.Services.Configurations;
 using ECommerce.Infrastructure.Services.Storage;
 using ECommerce.Infrastructure.Services.Storage.Azure;
 using ECommerce.Infrastructure.Services.Storage.Local;
@@ -25,6 +27,7 @@ namespace ECommerce.Infrastructure
             serviceCollection.AddScoped<IStorageService, StorageService>();
             serviceCollection.AddScoped<ITokenHandler, TokenHandler>();
             serviceCollection.AddScoped<IMailService, MailService>();
+            serviceCollection.AddScoped<IApplicationService, ApplicationService>(); 
         }
 
         // IoC proqram.cs deki versiya 1
